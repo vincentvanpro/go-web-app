@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.4.1/css/bootstrap.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.3.2/css/bootstrap-responsive.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.js"></script>
+
+    <!-- Datatables plugin -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.1/css/jquery.dataTables.min.css">
+    <script type="text/javascript" charset="utf8" src="//cdn.datatables.net/1.10.16/js/jquery.dataTables.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.4.1/js/bootstrap.js"></script>
+
+    <title>Web application</title>
+</head>
+
+<body>
+
+    <h1 style="text-align: center;">All Customers</h1>
+
+    <table class="table table-hover align-middle mb-0 bg-white display" id="fancytable">
+        <thead class="bg-light">
+          <tr>
+            <th>ID</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>E-Mail</th>
+            <th>Gender</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+            {{range $index, $item := .customers}}
+          <tr>
+            <td>
+              <span class="badge badge-primary rounded-pill mt-3">{{$item.ID}}</span>
+            </td>
+            <td>
+              <div class="d-flex align-items-center">
+                <div class="ms-3">
+                  <p class="fw-bold mb-1 column3_search mt-3">{{$item.FirstName}}</p>
+                  <!--<p class="text-muted mb-0">{{$item.Email}}</p>-->
+                </div>
+              </div>
+            </td>
+            <td>
+              <p class="fw-normal mt-3">{{$item.LastName}}</p>
+            </td>
+            <td>
+              <p class="fw-normal mt-3">{{$item.Email}}</p>
+            </td>
+            <td>
+              <p class="fw-normal mt-3">{{$item.Gender}}</p>
+            </td>
+
+            <td>
+              <div>
+                <button type="button" class="btn btn-primary mt-2" data-toggle="modal" data-target="#E{{$item.ID}}" onclick="window.location.hash = '#{{$item.ID}}';">
+                Edit
+              </button>
+              <button type="button" class="btn btn-primary mt-2" data-toggle="modal" data-target="#D{{$item.ID}}" onclick="window.location.hash = '#{{$item.ID}}';">
+                Details
+              </button>
+              </div>
+              
+            <!-- Details Modal -->
+            <div class="modal fade" id="D{{$item.ID}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+              <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                  <div class="modal-header text-center">
+                    <h5 class="modal-title w-100" id="exampleModalLongTitle">All Customer Details</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="false">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body mx-3">
+                    <table>
+                      <tbody>
+                          <tr>
+                              <td class="h6"><strong>ID</strong></td>
+                              <td> </td>
+                              <td class="h5">{{$item.ID}}</td>
+                          </tr>
+                          
+                          <tr>
+                              <td class="h6"><strong>First Name</strong></td>
+                              <td> </td>
+                              <td class="h5">{{$item.FirstName}}</td>
+                          </tr>
+                          
+                          <tr>
+                              <td class="h6"><strong>Last Name</strong></td>
+                              <td> </td>
+                              <td class="h5">{{$item.LastName}}</td>
+                          </tr>
+                          
+                          <tr>
+                              <td class="h6"><strong>E-Mail</strong></td>
+                              <td> </td>
+                              <td class="h5">{{$item.Email}}</td>
+                          </tr>
+                          
+                          <tr>
+                              <td class="h6"><strong>Date Of Birth</strong></td>
+                              <td> </td>
+                              <td class="h5">{{$item.DateOfBirth}}</td>
+                          </tr>
+                          
+                          <tr>
+                              <td class="h6"><strong>Gender</strong></td>
+                              <td> </td>
+                              <td class="h5">{{$item.Gender}}</td>
+                          </tr>  
+
+                          <tr>
+                              <td class="h6"><strong>Address</strong></td>
+                              <td> </td>
+                              <td class="h5">{{$item.Address}}</td>
+                          </tr>                            
+                      </tbody>
+                 </table>
+                      <div class="form-group">
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                          <!-- <button type="button" class="btn btn-primary">Button</button> -->
+                        </div>
+                      </div>
+                      </div>
+                    </div>
+                </div>
+                </div>
+              </div>
+
+              <!-- Edit Modal -->
+              <div class="modal fade editModal" id="E{{$item.ID}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                  <div class="modal-content">
+                    <div class="modal-header text-center">
+                      <h5 class="modal-title w-100" id="exampleModalLongTitle">Edit Customer Details</h5>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="false">&times;</span>
+                      </button>
+                    </div>
+                      <div class="modal-body mx-3">
+                        <form action="/users/{{$item.ID}}" method="POST">
+                          <input type="hidden" name="_method" value="PATCH">
+                          <input type="hidden" id="userID" name="ID" placeholder="ID" value="{{$item.ID}}"/>
+                          <div class="form-group">
+                            <label class="control-label">First Name</label>
+                            <div>
+                              <input type="text" name="FirstName" class="form-control" placeholder="John" value="{{$item.FirstName}}">
+                            </div>
+                          </div>
+                          <div class="form-group">
+                            <label class="control-label">Last Name</label>
+                            <div>
+                              <input type="text" name="LastName" class="form-control" placeholder="Doe" value="{{$item.LastName}}">
+                            </div>
+                          </div>
+                          <div class="form-group">
+                            <label class="control-label">E-Mail Address</label>
+                            <div>
+                              <input type="email" pattern="^([a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4})$" class="form-control" placeholder="example@domain.com" name="Email" value="{{$item.Email}}">
+                            </div>
+                          </div>
+                          <div class="form-group">
+                            <label class="control-label">Date Of Birth</label>
+                            <div>
+                              <input type="text" class="form-control" id="datepick {{$item.ID}}" placeholder="MM/DD/YYYY" required>
+                              <input type="hidden" id="pickerval {{$item.ID}}" class="form-control" name="DateOfBirth" value="{{$item.DateOfBirth}}">
+                            </div>
+                          </div>
+                          <div class="form-group">
+                            <label class="control-label">Gender</label>
+                            <div>
+                              <select class="form-select" id="inputGroupSelect" name="Gender">
+                                {{if eq $item.Gender "Male"}}
+                                <option selected value="Male">Male</option>
+                                <option value="Female">Female</option>
+                                {{else if eq $item.Gender "Female"}}
+                                <option value="Male">Male</option>
+                                <option selected value="Female">Female</option>
+                                {{end}}
+                            </select>
+                            </div>
+                          </div>                          
+                          <div class="form-group">
+                            <label class="control-label">Address</label>
+                            <div>
+                              <input type="text" class="form-control" placeholder="Street, City" name="Address" value="{{$item.Address}}">
+                            </div>
+                          </div>
+                          <div class="form-group">
+                            <div class="modal-footer">
+                              <button type="submit" class="btn btn-primary">Update</button>
+                              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                              <!-- <button type="button" class="btn btn-primary">Button</button> -->
+                            </div>
+                          </div>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+
+            </div>
+          </td>
+        </tr>
+        {{end}}
+      </tbody>
+    </table>
+    <div class="text-center">
+      <button type="button" class="btn btn-primary mt-2" data-toggle="modal" data-target="#createModal">
+        Create New Customer
+      </button>
+    </div>
+
+    <!-- Create New Customer Modal -->
+    <div class="modal fade" id="createModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header text-center">
+            <h5 class="modal-title w-100" id="exampleModalLongTitle">Create Customer</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="false">&times;</span>
+            </button>
+          </div>
+            <div class="modal-body mx-3">
+              <form action="/users" method="POST">
+                <div class="form-group">
+                  <label class="control-label">First Name</label>
+                  <div>
+                    <input type="text" name="FirstName" class="form-control" placeholder="John" required>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="control-label">Last Name</label>
+                  <div>
+                    <input type="text" name="LastName" class="form-control" placeholder="Doe" required>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="control-label">E-Mail Address</label>
+                  <div>
+                    <input type="email" pattern="^([a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4})$" class="form-control" placeholder="example@domain.com" name="Email" required>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="control-label">Date Of Birth</label>
+                  <div>
+                    <input type="text" class="form-control datepicker" placeholder="MM/DD/YYYY" required>
+                    <input type="hidden" id="datepickervalue" class="form-control" name="DateOfBirth">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="control-label">Gender</label>
+                  <div>
+                    <select class="form-select" id="inputGroupSelect" name="Gender" required>
+                      <option selected value="">Choose...</option>
+                      <option value="Male">Male</option>
+                      <option value="Female">Female</option>
+                  </select>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="control-label">Address</label>
+                  <div>
+                    <input type="text" class="form-control" placeholder="Street, City" name="Address">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Create</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                  </div>
+                </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+</body>
+<script>
+$(document).ready(function () {
+  var table = $('#fancytable').DataTable({
+    "columnDefs": [
+    { "searchable": false, "targets": 0 },
+    { "searchable": false, "targets": 3 },
+    { "searchable": false, "targets": 4 },
+    { "searchable": false, "targets": 5 }
+  ]
+  });
+
+  $(document).on('click', '[data-dismiss="modal"]', function() {
+    window.location.hash = '';
+  })
+});
+
+</script>
+
+<script>
+    $(document).ready(function(){
+        $(".datepicker").datepicker({
+            format: 'mm/dd/yyyy',
+            todayHighlight: true,
+            autoclose: true
+        }).on('change', function(e) {
+          //var date = $('.datepicker').val()
+          var [mm, dd, yyyy] = $('.datepicker').val().split(/[^\d]+/);
+          var date = yyyy + "-" + mm + "-" + dd + "T15:04:05Z"
+          document.getElementById("datepickervalue").value = date
+        });
+    })
+
+    var existingDatesAreSet = false;
+    var datepickObj = $('.editModal').find('input[id^="datepick"]');
+
+    $(document).bind('DOMSubtreeModified', function(){
+      $('.editModal').find('input[id^="datepick"]').each(function () {
+        $(this).datepicker({
+          format: 'mm/dd/yyyy',
+          todayHighlight: true,
+          autoclose: true
+        })
+        if (!existingDatesAreSet) {
+          datepickObj.each(function () {
+            var [_, id] = $(this).attr('id').split(" ")
+            var date = document.getElementById("pickerval "+id).value.slice(0, 10);
+            $(this).datepicker(
+              "setDate",
+              new Date(date)
+              )
+              document.getElementById("pickerval " + id).value = new Date(date).toISOString()
+            })
+            existingDatesAreSet = !existingDatesAreSet;
+          }
+          
+          $(this).on('change', function(e) {
+          var [_, id] = $(this).attr('id').split(" ")
+          var [mm, dd, yyyy] = document.getElementById("datepick "+id).value.split(/[^\d]+/);
+          var date = yyyy + "-" + mm + "-" + dd + "T15:04:05Z"
+          document.getElementById("pickerval " + id).value = date
+          $(this).datepicker('hide')
+        });
+      });
+    })
+
+</script>
+</html>
